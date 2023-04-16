@@ -1,0 +1,11 @@
+{
+  "name": "unaffected",
+  "module": "source/index.ts",
+  "type": "module",
+  "scripts": {
+    "start": "bun run source/index.ts"
+  },
+  "devDependencies": {
+    "bun-types": "^0.5.0"
+  }
+}
