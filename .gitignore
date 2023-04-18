@@ -3,6 +3,7 @@
 **/node_modules
 **/*.tsbuildinfo
 **/.DS_STORE
+**/types
 .env*
 !.env.example
 !.env.ci
