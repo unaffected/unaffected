@@ -1,0 +1,35 @@
+{
+  "name": "@unaffected/timer",
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "files": [
+    "./dist"
+  ],
+  "exports": {
+    ".": "./dist/index.js",
+    "./*": [
+      "./dist/*.js",
+      "./dist/*/index.js"
+    ]
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./types"
+      ]
+    }
+  },
+  "scripts": {
+    "build": "tsc --build tsconfig.build.json"
+  },
+  "author": "Cody Mercer <https://github.com/cklmercer>",
+  "license": "MIT",
+  "dependencies": {
+    "@unaffected/app": "workspace:^"
+  },
+  "devDependencies": {
+    "@vitest/coverage-c8": "^0.30.1",
+    "typescript": "^5.0.4",
+    "vitest": "^0.30.1"
+  }
+}

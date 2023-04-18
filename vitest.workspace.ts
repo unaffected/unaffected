@@ -2,6 +2,13 @@ import path from 'path'
 import { defineWorkspace } from 'vitest/config'
 import app from './package/app/vitest.config'
 import command from './package/command/vitest.config'
+import timer from './package/timer/vitest.config'
+
+const packages = [
+  app,
+  command,
+  timer,
+]
 
 const pkg = (config) => ({
   resolve: {
@@ -24,8 +31,4 @@ const pkg = (config) => ({
   },
 })
 
-
-export default defineWorkspace([
-  pkg(app),
-  pkg(command),
-])
+export default defineWorkspace(packages.map(pkg))

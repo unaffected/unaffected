@@ -12,6 +12,7 @@
   "scripts": {
     "@unaffected/app": "pnpm -F @unaffected/app",
     "@unaffected/command": "pnpm -F @unaffected/command",
+    "@unaffected/timer": "pnpm -F @unaffected/timer",
     "build": "sh ./bin/build.sh",
     "clean": "sh ./bin/clean.sh",
     "refresh": "sh ./bin/refresh.sh",

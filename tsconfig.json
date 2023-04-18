@@ -6,6 +6,8 @@
       "@unaffected/app/*": ["./package/app/source/*"],
       "@unaffected/command": ["./package/command/source"],
       "@unaffected/command/*": ["./package/command/source/*"],
+      "@unaffected/timer": ["./package/timer/source"],
+      "@unaffected/timer/*": ["./package/timer/source/*"],
     },
     "types": ["vitest/globals"]
   },
@@ -13,5 +15,6 @@
   "references": [
     { "path": "./package/app/tsconfig.build.json" },
     { "path": "./package/command/tsconfig.build.json" },
+    { "path": "./package/timer/tsconfig.build.json" },
   ]
 }
