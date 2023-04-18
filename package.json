@@ -1,0 +1,33 @@
+{
+  "name": "@unaffected/unaffected",
+  "version": "0.1.0",
+  "keywords": [
+    "framework",
+    "platform",
+    "toolkit",
+    "typescript",
+    "web"
+  ],
+  "description": "An all-in-one TypeScript application toolkit, framework, and platform.",
+  "scripts": {
+    "@unaffected/app": "pnpm -F @unaffected/app",
+    "@unaffected/command": "pnpm -F @unaffected/command",
+    "build": "sh ./bin/build.sh",
+    "clean": "sh ./bin/clean.sh",
+    "refresh": "sh ./bin/refresh.sh",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:watch": "vitest"
+  },
+  "author": "Cody Mercer <https://github.com/cklmercer>",
+  "license": "MIT",
+  "engines": {
+    "node": ">=19.3",
+    "pnpm": ">=8.2"
+  },
+  "devDependencies": {
+    "@vitest/coverage-c8": "^0.30.1",
+    "typescript": "^5.0.4",
+    "vitest": "^0.30.1"
+  }
+}

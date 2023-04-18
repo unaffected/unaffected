@@ -1,0 +1,28 @@
+{
+  "extends": "../../tsconfig.build.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "declarationDir": "./types",
+    "outDir": "./dist",
+    "paths": {
+      "@unaffected/command": ["./source"],
+      "@unaffected/command/*": ["./source/*"],
+    },
+    "rootDir": "."
+  },
+  "references": [
+    { "path": "../app" }
+  ],
+  "include": [
+    "source/*.json",
+    "source/**/*.json",
+    "source/*.ts",
+    "source/**/*.ts",
+    "source/*.tsx",
+    "source/**/*.tsx",
+  ],
+  "exclude": [
+    "dist",
+    "node_modules"
+  ],
+}

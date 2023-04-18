@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "paths": {
+      "@unaffected/app": ["./package/app/source"],
+      "@unaffected/app/*": ["./package/app/source/*"],
+      "@unaffected/command": ["./package/command/source"],
+      "@unaffected/command/*": ["./package/command/source/*"],
+    },
+    "types": ["vitest/globals"]
+  },
+  "files": [],
+  "references": [
+    { "path": "./package/app/tsconfig.build.json" },
+    { "path": "./package/command/tsconfig.build.json" },
+  ]
+}
