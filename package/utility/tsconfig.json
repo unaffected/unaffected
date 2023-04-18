@@ -5,14 +5,11 @@
     "declarationDir": "./types",
     "outDir": "./dist",
     "paths": {
-      "@unaffected/timer": ["./source"],
-      "@unaffected/timer/*": ["./source/*"],
+      "@unaffected/utility": ["./source"],
+      "@unaffected/utility/*": ["./source/*"],
     },
     "rootDir": "."
   },
-  "references": [
-    { "path": "../app" }
-  ],
   "include": [
     "source/*.json",
     "source/**/*.json",

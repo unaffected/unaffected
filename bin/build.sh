@@ -4,5 +4,5 @@
 pnpm @unaffected/app build
 
 # packages
-pnpm @unaffected/timer build
+pnpm @unaffected/utility build
 pnpm @unaffected/command build

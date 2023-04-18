@@ -1,4 +1,4 @@
-import { create, wait } from '.'
+import { create, wait } from './timer'
 
 describe('utility: timer', async () => {
   test('creating a timer', async () => {
