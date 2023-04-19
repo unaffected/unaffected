@@ -1,3 +1,4 @@
+export * as pattern from '@unaffected/utility/pattern'
 export { default as Store } from '@unaffected/utility/store'
 export * as timer from '@unaffected/utility/timer'
 export { default as uuid } from '@unaffected/utility/uuid'
