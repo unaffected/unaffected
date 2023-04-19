@@ -1,7 +1,7 @@
 name: integration
 on: [pull_request]
 jobs:
-  i:
+  integration:
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout repository
