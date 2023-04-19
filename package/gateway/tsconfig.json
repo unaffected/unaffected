@@ -1,0 +1,29 @@
+{
+  "extends": "../../tsconfig.build.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "declarationDir": "./types",
+    "outDir": "./dist",
+    "paths": {
+      "@unaffected/gateway": ["./source"],
+      "@unaffected/gateway/*": ["./source/*"],
+    },
+    "rootDir": "."
+  },
+  "references": [
+    { "path": "../app" },
+    { "path": "../utility" }
+  ],
+  "include": [
+    "source/*.json",
+    "source/**/*.json",
+    "source/*.ts",
+    "source/**/*.ts",
+    "source/*.tsx",
+    "source/**/*.tsx",
+  ],
+  "exclude": [
+    "dist",
+    "node_modules"
+  ],
+}
