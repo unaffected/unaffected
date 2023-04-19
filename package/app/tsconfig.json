@@ -9,6 +9,7 @@
       "@unaffected/app/*": ["./source/*"],
     },
     "rootDir": ".",
+    "types": ["vitest/globals"]
   },
   "include": [
     "source/*.json",

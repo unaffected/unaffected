@@ -8,7 +8,8 @@
       "@unaffected/utility": ["./source"],
       "@unaffected/utility/*": ["./source/*"],
     },
-    "rootDir": "."
+    "rootDir": ".",
+    "types": ["vitest/globals"]
   },
   "include": [
     "source/*.json",

@@ -8,7 +8,8 @@
       "@unaffected/command": ["./source"],
       "@unaffected/command/*": ["./source/*"],
     },
-    "rootDir": "."
+    "rootDir": ".",
+    "types": ["vitest/globals"]
   },
   "references": [
     { "path": "../app" },
