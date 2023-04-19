@@ -8,7 +8,7 @@
     "experimentalDecorators": true,
     "incremental": true,
     "jsx": "preserve",
-    "module": "CommonJS",
+    "module": "ES2022",
     "moduleResolution": "nodenext",
     "resolveJsonModule": true,
     "skipDefaultLibCheck": true,

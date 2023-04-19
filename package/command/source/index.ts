@@ -1,18 +1,20 @@
 import type Application from '@unaffected/app'
 
-export type Context<Input = never, Output = void, Params extends Record<string, any> = never> = {
+export type Context<Input = any, Output = any, Params extends Record<string, any> = any> = {
   app: Application
-  input: Partial<Input>
-  output: Partial<Output>
-  params: Params
+  input: Input
+  params?: Params
+  output?: Output
 }
 
 export interface Params {}
 
-export abstract class Command<Input = never, Output = void, P extends Params = never> {
+export abstract class Command<Input = any, Output = any, P extends Params = any> {
   public abstract readonly id: string
-  abstract authorize(context: Context<Input, Output, P>): Promise<boolean>
-  abstract execute(context: Context<Input, Output, P>): Promise<Output>
+  abstract execute(context: Context<Input, Output, P>): Output | Promise<Output>
+  abstract authorize?(context: Context<Input, Output, P>): Promise<boolean>
 }
+
+export interface Commands {}
 
 export default {}
