@@ -28,10 +28,10 @@ describe('app', () => {
       await app
         .configure((a: Application & any) => { a.woah = 'howdy' })
         .then(async (b: Application & any) => {
-          await app.configure([
-            (b: Application & any) => { b.foo = 'foo' },
-            (b: Application & any) => { b.bar = 'bar' },
-            [(b: Application & any) => { b.baz = 'baz' }],
+          await b.configure([
+            (c: Application & any) => { c.foo = 'foo' },
+            (c: Application & any) => { c.bar = 'bar' },
+            [(c: Application & any) => { c.baz = 'baz' }],
           ])
         })
 

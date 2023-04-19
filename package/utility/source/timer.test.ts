@@ -20,7 +20,7 @@ describe('utility: timer', async () => {
   })
 
   test('canceling a timer', async () => {
-    let foo = 'foo'
+    const foo = 'foo'
 
     const timer = create(() => {
       expect(foo).toBe('bar')

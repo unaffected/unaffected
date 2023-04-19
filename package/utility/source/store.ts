@@ -230,7 +230,7 @@ export class Store<T extends State> {
     return this
   }
 
-  take(key: string | string[], fallback?: any) {
+  take(key: string | string[]) {
     const value = Array.isArray(key) ? this.pick(key) : this.get(key)
 
     this.remove(key)
