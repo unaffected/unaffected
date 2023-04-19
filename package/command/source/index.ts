@@ -1,11 +1,4 @@
 import type Application from '@unaffected/app'
-import type { Policy } from '@unaffected/utility/guard'
-
-export interface Command<Input = never, Output = void, P extends Params = never> {
-  id: string
-  execute: Execute<Input, Output, P>
-  authorize?: Policy
-}
 
 export type Context<Input = never, Output = void, Params extends Record<string, any> = never> = {
   app: Application
@@ -14,12 +7,12 @@ export type Context<Input = never, Output = void, Params extends Record<string, 
   params: Params
 }
 
-export type Execute<
-  Input = never,
-  Output = void,
-  Params extends Record<string, any> = never
-> = (context: Context<Input, Output, Params>) => Promise<Output>
-
 export interface Params {}
+
+export abstract class Command<Input = never, Output = void, P extends Params = never> {
+  public abstract readonly id: string
+  abstract authorize(context: Context<Input, Output, P>): Promise<boolean>
+  abstract execute(context: Context<Input, Output, P>): Promise<Output>
+}
 
 export default {}
