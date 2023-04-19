@@ -1,4 +1,6 @@
+export { default as Store } from '@unaffected/utility/store'
 export * as timer from '@unaffected/utility/timer'
+export { default as uuid } from '@unaffected/utility/uuid'
 
 export { default as get } from 'lodash/get'
 export { default as keyBy } from 'lodash/keyBy'
