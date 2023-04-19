@@ -1,7 +1,7 @@
 name: integration
 on: [pull_request]
 jobs:
-  integrate:
+  integration:
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout repository
@@ -13,12 +13,12 @@ jobs:
           tags: unaffected:latest
           push: false
       - name: Lint
-        uses: addnap/docker-run-action@v3
+        uses: addnab/docker-run-action@v3
         with:
           image: unaffected:latest
           run: pnpm lint
       - name: Test
-        uses: addnap/docker-run-action@v3
+        uses: addnab/docker-run-action@v3
         with:
           image: unaffected:latest
           run: pnpm test
