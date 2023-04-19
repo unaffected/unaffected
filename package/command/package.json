@@ -1,24 +1,6 @@
 {
   "name": "@unaffected/command",
   "version": "0.1.0",
-  "main": "dist/index.js",
-  "files": [
-    "./dist"
-  ],
-  "exports": {
-    ".": "./dist/index.js",
-    "./*": [
-      "./dist/*.js",
-      "./dist/*/index.js"
-    ]
-  },
-  "typesVersions": {
-    "*": {
-      "*": [
-        "./types"
-      ]
-    }
-  },
   "scripts": {
     "build": "tsc --build tsconfig.build.json"
   },
@@ -38,5 +20,33 @@
     "eslint-plugin-vitest": "^0.1.4",
     "typescript": "^5.0.4",
     "vitest": "^0.30.1"
+  },
+  "main": "dist/index.js",
+  "files": [
+    "./dist",
+    "./types"
+  ],
+  "exports": {
+    ".": {
+      "types": "./types/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./*": {
+      "types": [
+        "./types/*/index.d.ts",
+        "./types/*.d.ts"
+      ],
+      "default": [
+        "./dist/*/index.js",
+        "./dist/*.js"
+      ]
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./types"
+      ]
+    }
   }
 }

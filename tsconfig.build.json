@@ -9,7 +9,7 @@
     "incremental": true,
     "jsx": "preserve",
     "module": "CommonJS",
-    "moduleResolution": "node",
+    "moduleResolution": "nodenext",
     "resolveJsonModule": true,
     "skipDefaultLibCheck": true,
     "skipLibCheck": true,

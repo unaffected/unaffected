@@ -30,12 +30,12 @@
     },
     "./*": {
       "types": [
-        "./types/*/index.d.ts",
-        "./types/*.d.ts"
+        "./types/*.d.ts",
+        "./types/*/index.d.ts"
       ],
       "default": [
-        "./dist/*/index.js",
-        "./dist/*.js"
+        "./dist/*.js",
+        "./dist/*/index.js"
       ]
     }
   },

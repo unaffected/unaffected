@@ -1,29 +1,11 @@
 {
   "name": "@unaffected/utility",
   "version": "0.1.0",
-  "main": "dist/index.js",
-  "files": [
-    "./dist"
-  ],
-  "exports": {
-    ".": "./dist/index.js",
-    "./*": [
-      "./dist/*.js",
-      "./dist/*/index.js"
-    ]
-  },
-  "typesVersions": {
-    "*": {
-      "*": [
-        "./types"
-      ]
-    }
-  },
+  "author": "Cody Mercer <https://github.com/cklmercer>",
+  "license": "MIT",
   "scripts": {
     "build": "tsc --build tsconfig.build.json"
   },
-  "author": "Cody Mercer <https://github.com/cklmercer>",
-  "license": "MIT",
   "dependencies": {
     "@unaffected/app": "workspace:^",
     "lodash": "^4.17.21",
@@ -43,5 +25,32 @@
     "eslint-plugin-vitest": "^0.1.4",
     "typescript": "^5.0.4",
     "vitest": "^0.30.1"
+  },
+  "files": [
+    "./dist",
+    "./types"
+  ],
+  "exports": {
+    ".": {
+      "types": "./types/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./*": {
+      "types": [
+        "./types/*.d.ts",
+        "./types/*/index.d.ts"
+      ],
+      "default": [
+        "./dist/*.js",
+        "./dist/*/index.js"
+      ]
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./types"
+      ]
+    }
   }
 }
