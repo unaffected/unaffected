@@ -11,7 +11,8 @@
     "rootDir": "."
   },
   "references": [
-    { "path": "../app" }
+    { "path": "../app" },
+    { "path": "../utility" }
   ],
   "include": [
     "source/*.json",

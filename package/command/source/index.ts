@@ -1,8 +1,10 @@
-import Application from '@unaffected/app'
+import type Application from '@unaffected/app'
+import type { Policy } from '@unaffected/utility/guard'
 
 export interface Command<Input = never, Output = void, P extends Params = never> {
   id: string
   execute: Execute<Input, Output, P>
+  authorize?: Policy
 }
 
 export type Context<Input = never, Output = void, Params extends Record<string, any> = never> = {
