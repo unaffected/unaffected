@@ -16,5 +16,17 @@
     { "path": "./package/app/tsconfig.build.json" },
     { "path": "./package/command/tsconfig.build.json" },
     { "path": "./package/utility/tsconfig.build.json" },
-  ]
+  ],
+  "typedocOptions": {
+    "entryPoints": ["./package/**/source/*.ts"],
+    "exclude": [
+      "node_modules",
+      "**/node_modules",
+      "*.test.ts",
+      "**/*.test.ts",
+      "*.d.ts",
+      "**/*.d.ts",
+    ],
+    "out": "./docs"
+  }
 }
