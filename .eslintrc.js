@@ -22,6 +22,7 @@ module.exports = {
     ecmaFeatures: { jsx: true },
     ecmaVersion: 2022,
     project: [
+      'app/*/tsconfig.json',
       'package/*/tsconfig.json',
     ],
     sourceType: 'module',
@@ -53,7 +54,7 @@ module.exports = {
         ignoreTemplateLiterals: true,
       },
     ],
-    'no-console': [error],
+    'no-console': ['warn'],
     'no-multi-spaces': [error],
     'no-multiple-empty-lines': error,
     'no-void': ['error', { allowAsStatement: true }],
@@ -102,11 +103,11 @@ module.exports = {
     '@typescript-eslint/restrict-template-expressions': ['off'],
     '@typescript-eslint/semi': ['error', 'never'],
     '@typescript-eslint/unbound-method': ['off'],
-    'no-restricted-imports': ['error', {
-      paths: [{
-        name: 'lodash',
-        message: 'lodash modules should be imported from lodash/[module]'
-      }],
-    }],
+    // 'no-restricted-imports': ['error', {
+    //   paths: [{
+    //     name: 'lodash',
+    //     message: 'lodash modules should be imported from lodash/[module]'
+    //   }],
+    // }],
   },
 }

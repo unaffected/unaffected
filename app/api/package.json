@@ -1,18 +1,21 @@
 {
-  "name": "@unaffected/gateway",
+  "name": "@unaffected/api",
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "build": "tsc --build tsconfig.build.json"
+    "build": "tsc --build tsconfig.build.json",
+    "start": "node ./dist/index.js"
   },
   "author": "Cody Mercer <https://github.com/cklmercer>",
   "license": "MIT",
   "dependencies": {
     "@unaffected/app": "workspace:^",
+    "@unaffected/gateway": "workspace:^",
     "@unaffected/utility": "workspace:^",
     "uWebSockets.js": "github:uNetworking/uWebSockets.js#v20.21.0"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.194",
     "@typescript-eslint/eslint-plugin": "^5.59.0",
     "@typescript-eslint/parser": "^5.59.0",
     "@vitest/coverage-c8": "^0.30.1",

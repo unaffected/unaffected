@@ -11,4 +11,6 @@ export const create = (options: Options = {}): Gateway => {
   return UWS.App(options)
 }
 
+export { UWS }
+
 export default create

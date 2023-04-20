@@ -1,5 +1,5 @@
 import type { Plugin } from '@unaffected/app'
-import gateway, { type Gateway } from './index'
+import gateway, { type Gateway } from '@unaffected/gateway'
 
 declare module '@unaffected/app' { interface Application { gateway: Gateway } }
 

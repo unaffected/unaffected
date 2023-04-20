@@ -6,6 +6,7 @@
     "build": "tsc --build tsconfig.build.json",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "type": "module",
   "author": "Cody Mercer <https://github.com/cklmercer>",
   "license": "MIT",
   "devDependencies": {
@@ -26,7 +27,8 @@
   "exports": {
     ".": {
       "types": "./types/index.d.ts",
-      "default": "./dist/index.js"
+      "default": "./dist/index.js",
+      "require": "./dist/index.js"
     },
     "./*": {
       "types": [
@@ -34,6 +36,10 @@
         "./types/*/index.d.ts"
       ],
       "default": [
+        "./dist/*.js",
+        "./dist/*/index.js"
+      ],
+      "require": [
         "./dist/*.js",
         "./dist/*/index.js"
       ]

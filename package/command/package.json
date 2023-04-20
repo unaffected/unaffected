@@ -1,6 +1,7 @@
 {
   "name": "@unaffected/command",
   "version": "0.1.0",
+  "type": "module",
   "scripts": {
     "build": "tsc --build tsconfig.build.json"
   },
@@ -29,7 +30,8 @@
   "exports": {
     ".": {
       "types": "./types/index.d.ts",
-      "default": "./dist/index.js"
+      "default": "./dist/index.js",
+      "require": "./dist/index.js"
     },
     "./*": {
       "types": [
@@ -39,6 +41,10 @@
       "default": [
         "./dist/*/index.js",
         "./dist/*.js"
+      ],
+      "require": [
+        "./dist/*.js",
+        "./dist/*/index.js"
       ]
     }
   },

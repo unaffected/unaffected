@@ -17,6 +17,7 @@
     { "path": "./package/command/tsconfig.build.json" },
     { "path": "./package/gateway/tsconfig.build.json" },
     { "path": "./package/utility/tsconfig.build.json" },
+    { "path": "./app/api/tsconfig.build.json" },
   ],
   "typedocOptions": {
     "entryPoints": ["./package/**/source/*.ts"],

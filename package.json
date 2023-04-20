@@ -10,6 +10,7 @@
   ],
   "description": "An all-in-one TypeScript application toolkit, framework, and platform.",
   "scripts": {
+    "@unaffected/api": "pnpm -F @unaffected/api",
     "@unaffected/app": "pnpm -F @unaffected/app",
     "@unaffected/command": "pnpm -F @unaffected/command",
     "@unaffected/gateway": "pnpm -F @unaffected/gateway",
