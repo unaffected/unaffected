@@ -5,6 +5,7 @@ export type Options = {
   expire?: number
   limit?: number
   on_expired?: (subscription: Subscription) => any
+  unique?: boolean
 }
 
 export type Subscription<T extends string = string, D = any> = {
@@ -68,6 +69,10 @@ export class Channel {
 
     if (options.expire) {
       this.expire(subscription, options)
+    }
+
+    if (options.unique) {
+      this.unsubscribe(subscription.type)
     }
 
     this.subscriptions.push(subscription)
