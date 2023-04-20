@@ -1,10 +1,26 @@
-export type Subscription = {
-  type: string
-  handler: (data: any) => void | Promise<void>
+import uuid from '@unaffected/utility/uuid'
+import * as timer from '@unaffected/utility/timer'
+
+export type Options = {
+  expire?: number
+  limit?: number
+  on_expired?: (subscription: Subscription) => any
 }
 
+export type Subscription<T extends string = string, D = any> = {
+  type: T
+  execute: (data: D) => void | Promise<void>
+  options: Options
+}
+
+export type Subscriptions = Array<Subscription & {
+  id?: string
+  invocations?: number
+  timer?: timer.Timer
+}>
+
 export class Channel {
-  #subscriptions: Subscription[]
+  #subscriptions: Subscriptions
 
   constructor(subscriptions: Subscription[] = []) {
     this.#subscriptions = subscriptions
@@ -15,28 +31,51 @@ export class Channel {
   }
 
   publish(event: string, data?: any) {
-    const triggers = this.subscriptions
-      .filter(({ type }) => type === event.toLowerCase())
-      .map(({ handler }) => new Promise(async (resolve, reject) => {
-        try {
-          resolve(await handler(data))
-        } catch (error) {
-          reject(error)
+    const triggers = this.#subscriptions
+      .map(({ execute, invocations, options, type }, idx) => {
+        if (type !== event) {
+          return false
         }
-      }))
 
-    Promise.all(triggers).catch(() => {})
+        this.#subscriptions[idx].invocations = (invocations ?? 0) + 1
+
+        if (options.limit && this.#subscriptions[idx].invocations >= options.limit) {
+          this.unsubscribe(type, execute)
+        }
+
+        return new Promise(async (resolve, reject) => {
+          try {
+            resolve(await execute(data))
+          } catch (error) {
+            reject(error)
+          }
+        })
+      })
+      .filter(Boolean)
+
+    Promise.all(triggers)
 
     return this
   }
 
-  subscribe(type: string, handler: Subscription['handler']) {
-    this.subscriptions.push({ handler, type: type.toLowerCase() })
+  subscribe(type: string, execute: Subscription['execute'], options: Options = {}) {
+    const subscription = {
+      execute,
+      id: uuid(),
+      type: type.toLowerCase(),
+      options,
+    }
+
+    if (options.expire) {
+      this.expire(subscription, options)
+    }
+
+    this.subscriptions.push(subscription)
 
     return this
   }
 
-  unsubscribe(type?: string, handler?: Subscription['handler']) {
+  unsubscribe(type?: string, execute?: Subscription['execute']) {
     if (!type) {
       this.#subscriptions = []
 
@@ -48,7 +87,7 @@ export class Channel {
         return true
       }
 
-      if (handler && subscription.handler !== handler) {
+      if (execute && subscription.execute !== execute) {
         return true
       }
 
@@ -62,12 +101,28 @@ export class Channel {
     return this.publish(type, data)
   }
 
-  on(type: string, handler: Subscription['handler']) {
-    return this.subscribe(type, handler)
+  on(type: string, execute: Subscription['execute'], options: Options = {}) {
+    return this.subscribe(type, execute, options)
   }
 
-  off(type?: string, handler?: Subscription['handler']) {
-    return this.unsubscribe(type, handler)
+  once(type: string, execute: Subscription['execute'], options: Options = {}) {
+    options.limit = 1
+
+    return this.subscribe(type, execute, options)
+  }
+
+  off(type?: string, execute?: Subscription['execute']) {
+    return this.unsubscribe(type, execute)
+  }
+
+  private expire(subscription: Subscription, options: Options) {
+    timer.create(() => {
+      this.unsubscribe(subscription.type, subscription.execute)
+
+      if (options.on_expired) {
+        options.on_expired(subscription)
+      }
+    }, options.expire)
   }
 }
 

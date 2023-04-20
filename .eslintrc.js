@@ -54,7 +54,7 @@ module.exports = {
         ignoreTemplateLiterals: true,
       },
     ],
-    'no-console': ['warn'],
+    'no-console': ['off'],
     'no-multi-spaces': [error],
     'no-multiple-empty-lines': error,
     'no-void': ['error', { allowAsStatement: true }],
