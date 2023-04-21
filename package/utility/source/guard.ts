@@ -2,6 +2,12 @@ export type Context = Record<string, any>
 export type Policy<T = Context> = (context: T) => boolean | Promise<boolean>
 export type Policies<T = Context> = Policy<T> | Policy<T>[]
 
+export type Guard = {
+  check: typeof check
+  every: typeof every
+  some: typeof some
+}
+
 export const check = <T = Context> (policy: Policy<T>): Policy<T> => {
   return async (context: T) => {
     return Promise
