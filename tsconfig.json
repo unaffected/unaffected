@@ -15,8 +15,8 @@
   "references": [
     { "path": "./package/app/tsconfig.build.json" },
     { "path": "./package/command/tsconfig.build.json" },
-    { "path": "./package/gateway/tsconfig.build.json" },
     { "path": "./package/utility/tsconfig.build.json" },
+    { "path": "./service/gateway/tsconfig.build.json" },
     { "path": "./app/api/tsconfig.build.json" },
   ],
   "typedocOptions": {

@@ -12,8 +12,8 @@
     "types": ["vitest/globals"]
   },
   "references": [
-    { "path": "../app" },
-    { "path": "../utility" }
+    { "path": "../../package/app" },
+    { "path": "../../package/utility" }
   ],
   "include": [
     "source/*.json",
