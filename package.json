@@ -16,6 +16,7 @@
     "@unaffected/gateway": "pnpm -F @unaffected/gateway",
     "@unaffected/utility": "pnpm -F @unaffected/utility",
     "build": "sh ./bin/build.sh",
+    "build:watch": "pnpm run -r build:watch",
     "build:docs": "typedoc",
     "clean": "sh ./bin/clean.sh",
     "lint": "eslint .",
