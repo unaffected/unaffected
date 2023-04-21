@@ -1,13 +1,11 @@
 import type { Plugin, Plugins } from '@unaffected/app'
-import event from '@unaffected/api/event/index'
 import gateway from '@unaffected/api/plugin/gateway'
-import utility from '@unaffected/api/plugin/utility'
+import utility from '@unaffected/utility/plugin/index'
 
 declare module '@unaffected/app' { interface Application { start: Promise<boolean> } }
 
 export const plugins: Plugins = [
   utility,
-  event,
   gateway,
 ]
 
