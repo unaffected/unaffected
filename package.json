@@ -22,6 +22,7 @@
     "lint": "eslint .",
     "lint:fix": "pnpm lint --fix",
     "refresh": "sh ./bin/refresh.sh",
+    "start:watch": "pnpm run -r start:watch",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest"

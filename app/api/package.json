@@ -4,7 +4,9 @@
   "type": "module",
   "scripts": {
     "build": "tsc --build tsconfig.build.json",
-    "start": "node ./dist/index.js"
+    "build:watch": "tsc-watch -p tsconfig.build.json --noClear",
+    "start": "node ./dist/index.js",
+    "start:watch": "pnpm build:watch --onSuccess 'node dist/index.js'"
   },
   "author": "Cody Mercer <https://github.com/cklmercer>",
   "license": "MIT",
