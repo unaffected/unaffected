@@ -11,7 +11,7 @@ export type Options = {
 export type Subscription<T extends string = string, D = any> = {
   type: T
   execute: (data: D) => void | Promise<void>
-  options: Options
+  options?: Options
 }
 
 export type Subscriptions = Array<Subscription & {
@@ -34,7 +34,7 @@ export class Channel {
   publish(event: string, data?: any) {
     const triggers = this.#subscriptions
       .map(({ execute, invocations, options, type }, idx) => {
-        if (type !== event) {
+        if (type !== event.toLowerCase()) {
           return false
         }
 
@@ -54,7 +54,7 @@ export class Channel {
       })
       .filter(Boolean)
 
-    Promise.all(triggers)
+    Promise.all(triggers).catch(() => {})
 
     return this
   }
