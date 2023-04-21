@@ -9,7 +9,7 @@ export const get_data = (response: UWS.HttpResponse, callback: any) => {
     buffer = Buffer.concat([buffer, chunk].filter(Boolean))
 
     if (is_last) {
-      return callback(JSON.parse(buffer.toString('utf-8')))
+      return callback(buffer.byteLength > 0 ? JSON.parse(buffer.toString('utf-8')) : undefined)
     }
   })
 

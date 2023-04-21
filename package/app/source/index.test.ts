@@ -1,6 +1,14 @@
 import App from '@unaffected/app'
 import { Application } from '@unaffected/app'
 
+declare module '@unaffected/app' {
+  interface Services {
+    math: typeof MathService
+  }
+}
+
+const MathService = { add: (x: number, y: number) => x + y }
+
 describe('app', () => {
   test('creating a new application instance', () => {
     const app = new Application()
@@ -44,6 +52,26 @@ describe('app', () => {
       expect(app.baz).toBe('baz')
 
       expect(app.plugins).toEqual(['1', '2', '3', '4'])
+    })
+  })
+
+  describe('registering services', () => {
+    test('registering a service during instaniation', () => {
+      const app = new Application({ services: { math: MathService } })
+
+      expect(app.service('math').add(1, 1)).toEqual(2)
+      expect(app.services).toHaveLength(1)
+      expect(app.services).toEqual(['math'])
+    })
+
+    test('registering a service after instaniation', () => {
+      const app = new Application()
+
+      app.service('math', MathService)
+
+      expect(app.service('math').add(1, 1)).toEqual(2)
+      expect(app.services).toHaveLength(1)
+      expect(app.services).toEqual(['math'])
     })
   })
 })

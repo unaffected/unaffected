@@ -26,7 +26,7 @@ export const METHOD = {
   POST: 'post',
   PUT: 'put',
   TRACE: 'trace',
-}
+} as const
 
 export const EVENT = {
   REQUEST: 'unaffected:gateway:http:request',
@@ -52,16 +52,18 @@ export const install: Plugin<Options>['install'] = (app, options = {}) => {
     return
   }
 
-  options.endpoint = options?.endpoint ?? '*'
+  options.endpoint = options?.endpoint ?? '/*'
   options.method = options?.method ?? 'any'
   options.event = options?.event ?? EVENT.REQUEST
 
+  console.log('endpoint:', options)
+
   app.gateway.any(options.endpoint, (response: UWS.HttpResponse, request: UWS.HttpRequest) => {
     const allowed = Array.isArray(options.method) ? options.method : [options.method]
-    const method = request.getMethod()
+    const method = request.getMethod() as Method
 
     if (!allowed.includes('any') && !allowed.includes(method)) {
-      response.writeStatus('404').end('Not found')
+      response.writeStatus('405').end('Method not allowed')
 
       return
     }

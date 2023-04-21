@@ -1,4 +1,4 @@
-import type Application from '@unaffected/app'
+import Application from '@unaffected/app'
 
 export type Context<Input = any, Output = any, Params extends Record<string, any> = any> = {
   app: Application

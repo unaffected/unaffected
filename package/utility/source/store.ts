@@ -1,5 +1,6 @@
-import { get, set, mergeWith, omit, pick, timer } from '@unaffected/utility'
+import * as dot from 'dot-object'
 import type { Timer } from '@unaffected/utility/timer'
+import * as timer from '@unaffected/utility/timer'
 
 export type State<T extends Record<string, any> = Record<string, any>> = T
 
@@ -12,14 +13,14 @@ export interface Timeout<T extends string> {
   cancel: () => void
 }
 export class Store<T extends State> {
-  private readonly timeouts: Map<string, Timer>
-  private readonly initial: Partial<T>
-  private state: Partial<T>
+  #initial: Partial<T>
+  #state: Partial<T>
+  #timers: Map<string, Timer>
 
   constructor(state: Partial<T> = {}) {
-    this.timeouts = new Map()
-    this.initial = { ...state }
-    this.state = state
+    this.#initial = { ...state }
+    this.#state = state
+    this.#timers = new Map()
   }
 
   get entries() {
@@ -30,8 +31,12 @@ export class Store<T extends State> {
     return Object.keys(this.state)
   }
 
+  get state() {
+    return this.#state
+  }
+
   get timers(): Record<string, Timer> {
-    return Object.fromEntries(this.timeouts.entries())
+    return Object.fromEntries(this.#timers.entries())
   }
 
   get values() {
@@ -57,7 +62,7 @@ export class Store<T extends State> {
 
     this.keep(key)
 
-    this.timeouts.set(key, timeout)
+    this.#timers.set(key, timeout)
 
     return this
   }
@@ -86,10 +91,10 @@ export class Store<T extends State> {
 
   get(key?: string, fallback?: any): State<T> | any {
     if (key) {
-      return get(this.state, key) ?? fallback
+      return dot.pick(key, this.#state) ?? fallback
     }
 
-    return this.state
+    return this.#state
   }
 
   is(key: string | string[], type: any): boolean {
@@ -149,7 +154,7 @@ export class Store<T extends State> {
       return this
     }
 
-    const timeout = this.timeouts.get(key)
+    const timeout = this.#timers.get(key)
 
     if (timeout) {
       timeout.cancel()
@@ -159,19 +164,17 @@ export class Store<T extends State> {
   }
 
   merge(state: Partial<T>) {
-    this.state = mergeWith(this.state, state, (existing, mutation) => {
-      if (Array.isArray(existing)) {
-        return [...existing, ...mutation]
-      }
-
-      return mutation
-    })
+    dot.set(undefined, state, this.#state, true)
 
     return this
   }
 
   pick(key: string | string[] = []) {
-    return pick(this.state, key as keyof State<T>)
+    if (Array.isArray(key)) {
+      return key.reduce((acc, k) => ({ ...acc, ...this.pick(k) }), {})
+    }
+
+    return { [key]: dot.pick(key, this.#state) }
   }
 
   refresh(key: string | string[]) {
@@ -181,7 +184,7 @@ export class Store<T extends State> {
       return this
     }
 
-    const timeout = this.timeouts.get(key)
+    const timeout = this.#timers.get(key)
 
     if (timeout) {
       timeout.reset()
@@ -191,13 +194,13 @@ export class Store<T extends State> {
   }
 
   remove(key: string | string[]) {
-    this.state = omit(this.state, key) as Partial<T>
+    this.#state = dot.remove(key, this.#state) as Partial<T>
 
     return this
   }
 
   replace(state: Partial<T>) {
-    this.state = state
+    this.#state = state
 
     return this
   }
@@ -210,18 +213,18 @@ export class Store<T extends State> {
     }
 
     if (!key) {
-      this.state = this.initial
+      this.#state = this.#initial
 
       return this
     }
 
-    this.set(key, get(this.initial, key))
+    dot.set(key, dot.pick(key, this.#initial), this.#state)
 
     return this
   }
 
   set(key: string, value?: any, expiration?: number) {
-    set(this.state, key, value)
+    dot.set(key, value, this.#state)
 
     if (expiration) {
       this.expire(key, expiration)
@@ -231,11 +234,11 @@ export class Store<T extends State> {
   }
 
   take(key: string | string[]) {
-    const value = Array.isArray(key) ? this.pick(key) : this.get(key)
+    if (Array.isArray(key)) {
+      return key.reduce((acc, k) => ({ ...acc, [k]: this.take(k) }), {})
+    }
 
-    this.remove(key)
-
-    return value
+    return dot.pick(key, this.#state, true)
   }
 
   timer(key: string) {
