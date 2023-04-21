@@ -1,13 +1,14 @@
 import { UWS } from '@unaffected/gateway'
 import type { Application, Plugin } from '@unaffected/app'
+import gateway from '@unaffected/gateway/plugin'
 import { channel, uuid } from '@unaffected/utility/plugin/index'
 
 export type Options = Endpoint | Endpoints
 
 export type Endpoint = {
-  endpoint: string
+  endpoint?: string
   event?: string
-  method?: Method
+  method?: Method | Method[]
 }
 
 export type Endpoints = Array<Endpoint | Endpoints>
@@ -50,11 +51,20 @@ export const install: Plugin<Options>['install'] = (app, options) => {
     return
   }
 
-  const method = options.method ?? 'any'
-  const action = actions(app)[method]
+  options.endpoint = options?.endpoint ?? '*'
+  options.method = options?.method ?? '*'
+  options.event = options?.event ?? EVENT.REQUEST
 
+  app.gateway.any(options.endpoint, (response: UWS.HttpResponse, request: UWS.HttpRequest) => {
+    const allowed = Array.isArray(options.method) ? options.method : [options.method]
+    const method = request.getMethod()
 
-  action(options.endpoint, (response: UWS.HttpResponse, request: UWS.HttpRequest) => {
+    if (!allowed.includes(method)) {
+      response.writeStatus('404').end('Not found')
+
+      return
+    }
+
     const message = {
       id: app.uuid(),
       request,
@@ -62,7 +72,7 @@ export const install: Plugin<Options>['install'] = (app, options) => {
     }
 
     const event = {
-      request: options.event ?? `${EVENT.REQUEST}:${options.endpoint}:${method}`,
+      request: options?.event ?? `${EVENT.REQUEST}:${options.endpoint}:${request.getMethod()}`,
       response: EVENT.RESPONSE(message.id),
     }
 
@@ -81,21 +91,21 @@ export const install: Plugin<Options>['install'] = (app, options) => {
 
       if (msg.data || msg.error) {
         response.end(JSON.stringify(msg.error ?? msg.data))
-
-        return
+      } else {
+        response.end('ok')
       }
-
-      response.end('ok')
-
-      return
-    })
+    }, { limit: 1 })
   })
 }
 
 export const plugin: Plugin<Options> = {
   id: 'unaffected:gateway:transport:http' as const,
-  dependencies: [channel, uuid],
+  dependencies: [channel, gateway, uuid],
   install,
+  options: {
+    endpoint: '*',
+    method: 'any',
+  },
 }
 
 export const { id } = plugin
