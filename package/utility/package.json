@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc --build tsconfig.build.json",
-    "build:watch": "tsc-watch -p tsconfig.build.json --noClear"
+    "build:watch": "pnpm run build --watch"
   },
   "dependencies": {
     "@unaffected/app": "workspace:^",
