@@ -1,5 +1,6 @@
 export type Plugin<Options = unknown> = {
   id: string,
+  dependencies?: Plugin[]
   install: (this: Application, app: Application, options?: Options) => void | Promise<void>,
   options?: Options
 }
@@ -46,6 +47,10 @@ export class Application {
     }
 
     this.#plugins.push(plugin.id)
+
+    if (plugin.dependencies?.length > 0) {
+      await this.configure(plugin.dependencies)
+    }
 
     await plugin.install.call(this, this, plugin.options)
 
