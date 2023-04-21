@@ -7,13 +7,46 @@ export interface HttpRequest {
   response: UWS.HttpResponse
 }
 
+const get_headers = (request: UWS.HttpRequest) => {
+  const headers: Record<string, any> = {}
+
+  request.forEach((key, value) => { headers[key] = value })
+
+  return headers
+}
+
+const get_query = (request: UWS.HttpRequest) => {
+  return request
+    .getQuery()
+    .split('&')
+    .reduce((acc, param: string) => {
+      const [key, value] = param.split('=')
+
+      if (!key) {
+        return acc
+      }
+
+      acc[key] = value
+
+      return acc
+    }, {})
+}
+
 export const plugin: Plugin = (app) => {
   app.network.on(EVENT.REQUEST, ({ id, response, request }: HttpRequest) => {
-    if (request.getUrl() === '/foo') {
-      response.write('foo foo foo')
+    const meta: Record<string, any> = {
+      id,
+      url: request.getUrl(),
+      method: request.getMethod(),
+      headers: get_headers(request),
+      data: get_query(request),
     }
 
-    response.writeStatus('200 OK').end(`Hello from event, ${id}.`)
+    response.writeHeader('Content-Type', 'application/json')
+
+    const json = JSON.stringify(meta, undefined, 2)
+
+    response.end(json)
   })
 }
 
