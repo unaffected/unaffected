@@ -13,8 +13,8 @@
   },
   "references": [
     { "path": "../../package/app" },
-    { "path": "../../package/gateway" },
     { "path": "../../package/utility" },
+    { "path": "../../service/gateway" },
   ],
   "include": [
     "source/*.json",
