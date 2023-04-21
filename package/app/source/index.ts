@@ -1,4 +1,9 @@
-export type Plugin = { id: string, install: (this: Application, app: Application) => void | Promise<void> }
+export type Plugin<Options = unknown> = {
+  id: string,
+  install: (this: Application, app: Application, options?: Options) => void | Promise<void>,
+  options?: Options
+}
+
 export type Plugins = Array<Plugins | Plugin>
 
 const uid = () => ('000' + ((Math.random() * 46656) | 0).toString()).slice(-3)
@@ -42,7 +47,7 @@ export class Application {
 
     this.#plugins.push(plugin.id)
 
-    await plugin.install.call(this, this)
+    await plugin.install.call(this, this, plugin.options)
 
     return this
   }
