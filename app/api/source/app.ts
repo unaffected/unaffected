@@ -1,15 +1,12 @@
 import Application from '@unaffected/app'
-import gateway from '@unaffected/api/plugin/gateway'
-
-declare module '@unaffected/app' { interface Application { ready: Promise<boolean> } }
+import http, { EVENT } from '@unaffected/gateway/plugin/transport/http'
 
 export const app = new Application()
 
-await app.configure(gateway)
+await app.configure(http)
 
-app.channel.on('unaffected:gateway:http:request', ({ id, response }) => {
-  console.log('event:', id)
-  response.end(`event: ${id}`)
+app.channel.on(EVENT.REQUEST, ({ id, request, response }) => {
+  response.end(JSON.stringify({ id, request }))
 })
 
 export default app

@@ -1,13 +1,19 @@
 import { UWS } from '@unaffected/gateway'
 
-export const get_data = (request: UWS.HttpRequest) => {
-  const data = request.getQuery()
+export const get_data = (response: UWS.HttpResponse, callback: any) => {
+  let buffer: Buffer
 
-  try {
-    return JSON.parse(data)
-  } catch (e) {
-    return data
-  }
+  response.onData((stream, is_last) => {
+    const chunk = Buffer.from(stream)
+
+    buffer = Buffer.concat([buffer, chunk].filter(Boolean))
+
+    if (is_last) {
+      return callback(JSON.parse(buffer.toString('utf-8')))
+    }
+  })
+
+  response.onAborted(() => callback('aborted'))
 }
 
 export const get_headers = (request: UWS.HttpRequest) => {
@@ -17,14 +23,6 @@ export const get_headers = (request: UWS.HttpRequest) => {
 
   return headers
 }
-
-export const get_meta = (request: UWS.HttpRequest) => ({
-  method: request.getMethod(),
-  url: request.getUrl(),
-  query: get_query(request),
-  headers: get_headers(request),
-  data: get_data(request),
-})
 
 export const get_query = (request: UWS.HttpRequest) => {
   return request
@@ -42,3 +40,10 @@ export const get_query = (request: UWS.HttpRequest) => {
       return acc
     }, {})
 }
+
+export const parse_request = (request: UWS.HttpRequest) => ({
+  method: request.getMethod(),
+  url: request.getUrl(),
+  query: get_query(request),
+  headers: get_headers(request),
+})

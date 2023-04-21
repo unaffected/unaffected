@@ -2,6 +2,7 @@ import { UWS } from '@unaffected/gateway'
 import type { Application, Plugin } from '@unaffected/app'
 import gateway from '@unaffected/gateway/plugin'
 import { channel, uuid } from '@unaffected/utility/plugin/index'
+import * as http from '@unaffected/gateway/utility/http'
 
 export type Options = Endpoint | Endpoints
 
@@ -44,7 +45,7 @@ export const actions = (app: Application) => ({
   [METHOD.TRACE]: app.gateway.trace,
 })
 
-export const install: Plugin<Options>['install'] = (app, options) => {
+export const install: Plugin<Options>['install'] = (app, options = {}) => {
   if (Array.isArray(options)) {
     options.forEach((endpoint) => install.call(app, app, endpoint))
 
@@ -52,31 +53,37 @@ export const install: Plugin<Options>['install'] = (app, options) => {
   }
 
   options.endpoint = options?.endpoint ?? '*'
-  options.method = options?.method ?? '*'
+  options.method = options?.method ?? 'any'
   options.event = options?.event ?? EVENT.REQUEST
 
   app.gateway.any(options.endpoint, (response: UWS.HttpResponse, request: UWS.HttpRequest) => {
     const allowed = Array.isArray(options.method) ? options.method : [options.method]
     const method = request.getMethod()
 
-    if (!allowed.includes(method)) {
+    if (!allowed.includes('any') && !allowed.includes(method)) {
       response.writeStatus('404').end('Not found')
 
       return
     }
 
-    const message = {
+    const message: any = {
       id: app.uuid(),
-      request,
+      request: http.parse_request(request),
       response,
     }
+
+    response.writeHeader('Content-Type', message.request.headers?.['content-type'] ?? 'application/json')
 
     const event = {
       request: options?.event ?? `${EVENT.REQUEST}:${options.endpoint}:${request.getMethod()}`,
       response: EVENT.RESPONSE(message.id),
     }
 
-    app.channel.publish(event.request, message)
+    message.request.data = http.get_data(response, (data: any) => {
+      message.request.data = data
+
+      app.channel.publish(event.request, message)
+    })
 
     app.channel.subscribe(event.response, (msg) => {
       if (msg.status) {
@@ -102,10 +109,6 @@ export const plugin: Plugin<Options> = {
   id: 'unaffected:gateway:transport:http' as const,
   dependencies: [channel, gateway, uuid],
   install,
-  options: {
-    endpoint: '*',
-    method: 'any',
-  },
 }
 
 export const { id } = plugin
