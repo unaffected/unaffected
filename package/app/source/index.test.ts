@@ -1,5 +1,5 @@
-import App from '.'
-import { Application } from '.'
+import App from '@unaffected/app'
+import { Application } from '@unaffected/app'
 
 describe('app', () => {
   test('creating a new application instance', () => {
@@ -17,21 +17,24 @@ describe('app', () => {
     test('configuring a single plugin', async () => {
       const app = new Application() as Application & any
 
-      await app.configure((a: Application & any) => { a.id = 'foo' })
+      await app.configure({ id: 'foo', install: (a: Application & any) => { a.id = 'foo' } })
 
       expect(app.id).toBe('foo')
+
+      expect(app.plugins).toEqual(['foo'])
     })
 
     test('configuring a collection of plugins', async () => {
       const app = new Application() as Application & any
 
       await app
-        .configure((a: Application & any) => { a.woah = 'howdy' })
+        .configure({ id: '1', install: (a: Application & any) => { a.woah = 'howdy' } })
         .then(async (b: Application & any) => {
           await b.configure([
-            (c: Application & any) => { c.foo = 'foo' },
-            (c: Application & any) => { c.bar = 'bar' },
-            [(c: Application & any) => { c.baz = 'baz' }],
+            { id: '2', install: (c: Application & any) => { c.foo = 'foo' } },
+            { id: '2', install: (c: Application & any) => { c.foo = 'foo' } },
+            { id: '3', install: (c: Application & any) => { c.bar = 'bar' } },
+            [{ id: '4', install: (c: Application & any) => { c.baz = 'baz' } }],
           ])
         })
 
@@ -39,6 +42,8 @@ describe('app', () => {
       expect(app.foo).toBe('foo')
       expect(app.bar).toBe('bar')
       expect(app.baz).toBe('baz')
+
+      expect(app.plugins).toEqual(['1', '2', '3', '4'])
     })
   })
 })

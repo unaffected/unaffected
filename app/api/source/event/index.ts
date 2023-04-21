@@ -10,10 +10,11 @@ export const plugins: Plugins = [
   socket,
 ]
 
-export const plugin: Plugin = (app) => {
-  app.network = new Channel()
-
-  app.configure(plugins)
+export const plugin: Plugin = {
+  id: 'unaffected:api:event' as const,
+  install: (app) => {
+    app.configure(plugins)
+  },
 }
 
 export default plugin

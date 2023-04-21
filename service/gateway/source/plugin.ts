@@ -1,11 +1,16 @@
 import type { Plugin } from '@unaffected/app'
-import gateway, { type Gateway, type Options, UWS } from '@unaffected/gateway'
+import gateway, { type Gateway, UWS } from '@unaffected/gateway'
 
 declare module '@unaffected/app' { interface Application { gateway: Gateway } }
 
-export const plugin: Plugin = (app) => {
-  app.gateway = gateway()
+export const plugin: Plugin = {
+  id: 'unaffected:gateway' as const,
+  install: (app) => {
+    app.gateway = gateway()
+  },
 }
+
+export const { id, install } = plugin
 
 export { UWS }
 

@@ -5,8 +5,13 @@ declare module '@unaffected/app' { interface Application { store: Cache<Store> }
 
 export interface Store {}
 
-export const plugin: Plugin = (app) => {
-  app.store = new Cache<Store>()
+export const plugin: Plugin = {
+  id: 'unaffected:utility:store' as const,
+  install: (app) => {
+    app.store = new Cache<Store>()
+  },
 }
+
+export const { id, install } = plugin
 
 export default plugin

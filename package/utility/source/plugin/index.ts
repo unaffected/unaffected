@@ -14,7 +14,12 @@ export const plugins: Plugins = [
   uuid,
 ]
 
-export const plugin: Plugin = async (app) => { await app.configure(plugins) }
+export const plugin: Plugin = {
+  id: 'unaffected:utility' as const,
+  install: async (app) => {
+    await app.configure(plugins)
+  },
+}
 
 export {
   channel,
