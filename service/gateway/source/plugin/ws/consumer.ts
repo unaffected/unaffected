@@ -10,14 +10,14 @@ export type Options<UserData extends object = Record<string, any>> = UWS.WebSock
 }
 
 export const EVENT = {
-  CONNECTED: 'unaffected:gateway:transport:ws:connected',
-  DISCONNECTED: 'unaffected:gateway:transport:ws:disconnected',
-  DRAINED: 'unaffected:gateway:transport:ws:drained',
-  MESSAGE: 'unaffected:gateway:transport:ws:message',
+  CONNECTED: 'unaffected:gateway:ws:connected',
+  DISCONNECTED: 'unaffected:gateway:ws:disconnected',
+  DRAINED: 'unaffected:gateway:ws:drained',
+  MESSAGE: 'unaffected:gateway:ws:message',
 } as const
 
 export const plugin: Plugin<Options> = {
-  id: 'unaffected:gateway:transport:ws',
+  id: 'unaffected:gateway:ws:consumer',
   dependencies: [gateway, utility],
   install: (app, options) => {
     app.gateway.ws(options?.endpoint ?? '/*', {

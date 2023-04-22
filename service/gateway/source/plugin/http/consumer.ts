@@ -1,11 +1,12 @@
 import { UWS } from '@unaffected/gateway'
 import type { Application, Plugin } from '@unaffected/app'
-import { Gateway } from '@unaffected/gateway'
-import gateway from '@unaffected/gateway/plugin'
-import { channel, uuid } from '@unaffected/utility/plugin/index'
+import gateway, { Gateway } from '@unaffected/gateway'
 import * as http from '@unaffected/gateway/utility/http'
+import { channel, uuid } from '@unaffected/utility/plugin/index'
 
-declare module '@unaffected/app' { interface Application { gateway: Gateway } }
+declare module '@unaffected/app' {
+  interface Application { gateway: Gateway }
+}
 
 export type Options = Endpoint | Endpoints
 
@@ -111,7 +112,7 @@ export const install: Plugin<Options>['install'] = (app, options = {}) => {
 }
 
 export const plugin: Plugin<Options> = {
-  id: 'unaffected:gateway:transport:http' as const,
+  id: 'unaffected:gateway:http:consumer' as const,
   dependencies: [channel, gateway, uuid],
   install,
 }

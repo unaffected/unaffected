@@ -1,6 +1,6 @@
 import UWS from 'uWebSockets.js'
 
-export { default, EVENT } from '@unaffected/gateway/plugin/transport/index'
+export { default, EVENT } from '@unaffected/gateway/plugin/web'
 
 export type Options = UWS.AppOptions
 export type Gateway = UWS.TemplatedApp
