@@ -8,7 +8,7 @@ declare module '@unaffected/app' { interface Application { gateway: Gateway } }
 export const EVENT = { HTTP, WS } as const
 
 export const plugin: Plugin = {
-  id: 'unaffected:gateway:transport' as const,
+  id: 'unaffected:gateway:web' as const,
   install: async (app) => {
     await app.configure(http)
     await app.configure(ws)
