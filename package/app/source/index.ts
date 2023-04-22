@@ -72,22 +72,6 @@ export class Application <AppServices = Services> {
     return this.#plugins.includes(typeof plugin === 'string' ? plugin : plugin.id)
   }
 
-  public async install(plugin: Plugin) {
-    if (this.is_installed(plugin)) {
-      return this
-    }
-
-    this.#plugins.push(plugin.id)
-
-    if (plugin.dependencies?.length > 0) {
-      await this.configure(plugin.dependencies)
-    }
-
-    await plugin.install.call(this, this, plugin.options)
-
-    return this
-  }
-
   public service<
     Service extends keyof AppServices & string,
     Provider extends Application | object
@@ -103,6 +87,22 @@ export class Application <AppServices = Services> {
     this.#services[service as keyof typeof services] = <Application<Provider>> app
 
     return app as AppServices[Service]
+  }
+
+  private async install(plugin: Plugin) {
+    if (this.is_installed(plugin)) {
+      return this
+    }
+
+    this.#plugins.push(plugin.id)
+
+    if (plugin.dependencies?.length > 0) {
+      await this.configure(plugin.dependencies)
+    }
+
+    await plugin.install.call(this, this, plugin.options)
+
+    return this
   }
 
   private async setup(options: Options = {}) {
