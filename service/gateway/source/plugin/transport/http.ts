@@ -1,8 +1,11 @@
 import { UWS } from '@unaffected/gateway'
 import type { Application, Plugin } from '@unaffected/app'
+import { Gateway } from '@unaffected/gateway'
 import gateway from '@unaffected/gateway/plugin'
 import { channel, uuid } from '@unaffected/utility/plugin/index'
 import * as http from '@unaffected/gateway/utility/http'
+
+declare module '@unaffected/app' { interface Application { gateway: Gateway } }
 
 export type Options = Endpoint | Endpoints
 
