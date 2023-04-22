@@ -1,5 +1,5 @@
 import App from '@unaffected/app' // core application module
-import utility from '@unaffected/utility/plugin/index' // recommended utility plugins,
+import utility from '@unaffected/utility' // recommended utility plugins,
 import gateway, { EVENT, UWS } from '@unaffected/gateway' // gateway (both http/ws by default)
 
 // create a new application
@@ -40,5 +40,3 @@ app.gateway.listen(9001 , (is_listening) => {
     console.log('failed to start server')
   }
 })
-
-export default {}
