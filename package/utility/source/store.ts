@@ -4,14 +4,6 @@ import * as timer from '@unaffected/utility/timer'
 
 export type State<T extends Record<string, any> = Record<string, any>> = T
 
-export interface Timeout<T extends string> {
-  key: T
-  expiration: number
-  created_at: number
-  expires_at: number
-  timer: NodeJS.Timer | number
-  cancel: () => void
-}
 export class Store<T extends State> {
   #initial: Partial<T>
   #state: Partial<T>
