@@ -40,7 +40,7 @@ export class Application <AppServices = Services> {
   get services() { return Object.keys(this.#services) }
   get plugins() { return this.#plugins }
 
-  static extend<Provider>(provider?: Provider): Application<Provider> {
+  static service<Provider>(provider?: Provider): Application<Provider> {
     if (provider instanceof Application) {
       return provider
     }
@@ -98,7 +98,7 @@ export class Application <AppServices = Services> {
       return <AppServices[Service]> this.#services[service]
     }
 
-    const app = Application.extend(provider)
+    const app = Application.service(provider)
 
     this.#services[service as keyof typeof services] = <Application<Provider>> app
 
