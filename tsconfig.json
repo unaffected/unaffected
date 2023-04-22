@@ -4,8 +4,8 @@
     "paths": {
       "@unaffected/app": ["./package/app/source"],
       "@unaffected/app/*": ["./package/app/source/*"],
-      "@unaffected/command": ["./package/command/source"],
-      "@unaffected/command/*": ["./package/command/source/*"],
+      "@unaffected/gateway": ["./package/gateway/source"],
+      "@unaffected/gateway/*": ["./package/gateway/source/*"],
       "@unaffected/utility": ["./package/utility/source"],
       "@unaffected/utility/*": ["./package/utility/source/*"],
     },

@@ -12,7 +12,6 @@
   "scripts": {
     "@unaffected/api": "pnpm -F @unaffected/api",
     "@unaffected/app": "pnpm -F @unaffected/app",
-    "@unaffected/command": "pnpm -F @unaffected/command",
     "@unaffected/gateway": "pnpm -F @unaffected/gateway",
     "@unaffected/utility": "pnpm -F @unaffected/utility",
     "build": "sh ./bin/build/index.sh",

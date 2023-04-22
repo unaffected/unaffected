@@ -1,13 +1,11 @@
 import path from 'path'
 import { defineWorkspace } from 'vitest/config'
 import app from './package/app/vitest.config'
-import command from './package/command/vitest.config'
 import utility from './package/utility/vitest.config'
 import gateway from './service/gateway/vitest.config'
 
 const packages = [
   app,
-  command,
   utility,
   gateway,
 ]
@@ -16,7 +14,7 @@ const pkg = (config) => ({
   resolve: {
     alias: {
       '@unaffected/app': path.resolve(__dirname, 'package/app'),
-      '@unaffected/command': path.resolve(__dirname, 'package/command'),
+      '@unaffected/gateway': path.resolve(__dirname, 'package/gateway'),
       '@unaffected/utility': path.resolve(__dirname, 'package/utility'),
     },
   },
@@ -24,7 +22,7 @@ const pkg = (config) => ({
     ...config.test,
     alias: {
       '@unaffected/app': path.resolve(__dirname, 'package/app/source'),
-      '@unaffected/command': path.resolve(__dirname, 'package/command/source'),
+      '@unaffected/gateway': path.resolve(__dirname, 'package/gateway/source'),
       '@unaffected/utility': path.resolve(__dirname, 'package/utility/source'),
     },
     environment: 'node',
