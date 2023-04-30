@@ -8,7 +8,8 @@ COPY **/vitest*.ts **/vitest*.ts
 
 RUN npm i -g pnpm@8.2.0
 
+RUN pnpm install
+
 COPY . .
 
-RUN pnpm install
 RUN pnpm build

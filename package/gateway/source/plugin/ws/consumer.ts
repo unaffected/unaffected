@@ -1,6 +1,6 @@
 import type { Plugin } from '@unaffected/app'
 import type { Gateway } from '@unaffected/gateway'
-import gateway, { UWS } from '@unaffected/gateway/plugin'
+import { UWS } from '@unaffected/gateway/plugin'
 import utility from '@unaffected/utility/plugin/index'
 
 declare module '@unaffected/app' { interface Application { gateway: Gateway } }
@@ -18,7 +18,7 @@ export const EVENT = {
 
 export const plugin: Plugin<Options> = {
   id: 'unaffected:gateway:ws:consumer',
-  dependencies: [gateway, utility],
+  dependencies: [utility],
   install: (app, options) => {
     app.gateway.ws(options?.endpoint ?? '/*', {
       drain: (socket) => {

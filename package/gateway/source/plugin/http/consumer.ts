@@ -1,6 +1,6 @@
 import { UWS } from '@unaffected/gateway'
 import type { Application, Plugin } from '@unaffected/app'
-import gateway, { Gateway } from '@unaffected/gateway'
+import { Gateway } from '@unaffected/gateway'
 import * as http from '@unaffected/gateway/utility/http'
 import { channel, uuid } from '@unaffected/utility/plugin/index'
 
@@ -113,7 +113,7 @@ export const install: Plugin<Options>['install'] = (app, options = {}) => {
 
 export const plugin: Plugin<Options> = {
   id: 'unaffected:gateway:http:consumer' as const,
-  dependencies: [channel, gateway, uuid],
+  dependencies: [channel, uuid],
   install,
 }
 

@@ -10,8 +10,6 @@ export const plugin: Plugin<Options> = {
   },
 }
 
-export const { id, install } = plugin
-
 export { UWS }
 
 export default plugin
