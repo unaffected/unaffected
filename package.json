@@ -13,6 +13,7 @@
     "@unaffected/api": "pnpm -F @unaffected/api",
     "@unaffected/app": "pnpm -F @unaffected/app",
     "@unaffected/gateway": "pnpm -F @unaffected/gateway",
+    "@unaffected/renderer": "pnpm -F @unaffected/renderer",
     "@unaffected/utility": "pnpm -F @unaffected/utility",
     "build": "sh ./bin/build/index.sh",
     "build:watch": "sh ./bin/build/watch.sh",

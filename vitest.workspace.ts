@@ -1,13 +1,15 @@
 import path from 'path'
 import { defineWorkspace } from 'vitest/config'
 import app from './package/app/vitest.config'
-import utility from './package/utility/vitest.config'
 import gateway from './package/gateway/vitest.config'
+import renderer from './package/renderer/vitest.config'
+import utility from './package/utility/vitest.config'
 
 const packages = [
   app,
   utility,
   gateway,
+  renderer,
 ]
 
 const pkg = (config) => ({

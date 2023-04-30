@@ -1,0 +1,30 @@
+{
+  "extends": "../../tsconfig.build.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "declarationDir": "./types",
+    "outDir": "./dist",
+    "paths": {
+      "@unaffected/renderer": ["./source"],
+      "@unaffected/renderer/*": ["./source/*"],
+    },
+    "rootDir": ".",
+    "types": ["vitest/globals"]
+  },
+  "references": [
+    { "path": "../../package/app" },
+    { "path": "../../package/utility" }
+  ],
+  "include": [
+    "source/*.json",
+    "source/**/*.json",
+    "source/*.ts",
+    "source/**/*.ts",
+    "source/*.tsx",
+    "source/**/*.tsx",
+  ],
+  "exclude": [
+    "dist",
+    "node_modules"
+  ],
+}
