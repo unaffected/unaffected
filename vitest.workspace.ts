@@ -17,6 +17,7 @@ const pkg = (config) => ({
     alias: {
       '@unaffected/app': path.resolve(__dirname, 'package/app'),
       '@unaffected/gateway': path.resolve(__dirname, 'package/gateway'),
+      '@unaffected/renderer': path.resolve(__dirname, 'package/renderer'),
       '@unaffected/utility': path.resolve(__dirname, 'package/utility'),
     },
   },
@@ -25,6 +26,7 @@ const pkg = (config) => ({
     alias: {
       '@unaffected/app': path.resolve(__dirname, 'package/app/source'),
       '@unaffected/gateway': path.resolve(__dirname, 'package/gateway/source'),
+      '@unaffected/renderer': path.resolve(__dirname, 'package/renderer/source'),
       '@unaffected/utility': path.resolve(__dirname, 'package/utility/source'),
     },
     environment: 'node',
