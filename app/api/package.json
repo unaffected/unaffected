@@ -14,6 +14,7 @@
     "@unaffected/app": "workspace:^",
     "@unaffected/gateway": "workspace:^",
     "@unaffected/utility": "workspace:^",
+    "@unaffected/renderer": "workspace:^",
     "uWebSockets.js": "github:uNetworking/uWebSockets.js#v20.21.0"
   },
   "devDependencies": {
