@@ -81,7 +81,7 @@ export const install: Plugin<Options>['install'] = (app, options = {}) => {
     response.writeHeader('Content-Type', message.request.headers?.['content-type'] ?? 'application/json')
 
     const event = {
-      request: options?.event ?? `${EVENT.REQUEST}:${options.endpoint}:${request.getMethod()}`,
+      request: options?.event ?? EVENT.REQUEST,
       response: EVENT.RESPONSE(message.id),
     }
 

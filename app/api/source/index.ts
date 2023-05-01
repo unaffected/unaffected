@@ -14,7 +14,6 @@ const on_http_request = ({ id, request, response }: {
   response.end(JSON.stringify({ id, request }))
 }
 
-
 const on_socket_message = ({ socket, message }: {
   socket: UWS.WebSocket<never>,
   message: Buffer,
@@ -26,7 +25,6 @@ const on_socket_message = ({ socket, message }: {
 app.channel
   .on(EVENT.HTTP.REQUEST, on_http_request)
   .on(EVENT.WS.MESSAGE, on_socket_message)
-
 
 app.gateway.listen(9001, (is_listening) => {
   if (is_listening) {
