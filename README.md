@@ -1,6 +1,8 @@
 # `unaffected/unaffected`
 
-An application toolkit and web framework for ambitious developers.
+~~An application toolkit and web framework for ambitious developers.~~
+
+Just use rust.
 
 ## License
 
