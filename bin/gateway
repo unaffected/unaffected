@@ -1,0 +1,30 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+require __DIR__.'/../vendor/autoload.php';
+
+use Diagonal\Application\Application;
+use Diagonal\Application\Hook\Scope;
+use Diagonal\Application\Hook\Type;
+use Diagonal\Network\Network;
+use Diagonal\Network\Subject;
+use Diagonal\Server\Server;
+
+$network = new Network();
+$server = new Server();
+
+$app = Application::make([$network, $server], key: 'gateway');
+
+// The gateway holds no services. Every dispatch is answered by an engine on
+// the network, which is what the outermost hook scope exists for.
+$app->hook(Scope::Network, Type::Around, $network->forward(prefix: getenv('NETWORK_PREFIX') ?: Subject::PREFIX));
+
+fwrite(STDOUT, sprintf(
+    "gateway listening on http/1.1 :%s and h2c :%s\n",
+    getenv('HTTP_PORT') ?: 8080,
+    getenv('HTTP2_PORT') ?: 8081,
+));
+
+$server->start();

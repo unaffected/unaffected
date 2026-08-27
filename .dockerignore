@@ -1,0 +1,4 @@
+vendor/
+.git/
+.phpunit.cache/
+.DS_Store

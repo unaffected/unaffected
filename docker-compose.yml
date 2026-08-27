@@ -1,0 +1,80 @@
+name: platform
+
+services:
+  nats:
+    image: nats:2.10-alpine
+    container_name: platform-nats
+    command:
+      - "--jetstream"
+      - "--store_dir=/data"
+      - "--http_port=8222"
+      - "--name=platform-nats"
+    ports:
+      - "${NATS_CLIENT_PORT:-14222}:4222"   # client
+      - "${NATS_MONITOR_PORT:-18222}:8222"  # monitoring / healthz
+    volumes:
+      - nats-data:/data
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://127.0.0.1:8222/healthz"]
+      interval: 2s
+      timeout: 2s
+      retries: 15
+
+  engine:
+    build: .
+    image: platform-php:local
+    container_name: platform-engine
+    command: php bin/engine
+    depends_on:
+      nats:
+        condition: service_healthy
+    environment:
+      NATS_HOST: nats
+      NATS_PORT: "4222"
+      NETWORK_PREFIX: "${NETWORK_PREFIX:-service}"
+    volumes:
+      - ./:/app
+
+  gateway:
+    build: .
+    image: platform-php:local
+    container_name: platform-gateway
+    command: php bin/gateway
+    depends_on:
+      nats:
+        condition: service_healthy
+    environment:
+      NATS_HOST: nats
+      NATS_PORT: "4222"
+      NETWORK_PREFIX: "${NETWORK_PREFIX:-service}"
+      HTTP_PORT: "8080"
+      HTTP2_PORT: "8081"
+    ports:
+      - "${HTTP_PORT:-12080}:8080"    # http/1.1
+      - "${HTTP2_PORT:-12081}:8081"   # h2c
+    volumes:
+      - ./:/app
+
+  # One-shot container for php/composer/phpunit. Never started by `up`.
+  #   docker compose run --rm php-cli php ...
+  php-cli:
+    profiles:
+      - donotstart
+    build: .
+    image: platform-php:local
+    user: "${UID:-501}:${GID:-20}"
+    environment:
+      HOME: /tmp
+      COMPOSER_HOME: /tmp/.composer
+      GATEWAY_HOST: "${GATEWAY_HOST:-gateway}"
+      GATEWAY_PORT: "8080"
+      NATS_HOST: nats
+      NATS_PORT: "4222"
+      XDEBUG_MODE: "${XDEBUG_MODE:-off}"
+    volumes:
+      - ./:/app
+      - ${HOME}/.composer:/tmp/.composer
+
+volumes:
+  nats-data:
+    name: platform-nats-data

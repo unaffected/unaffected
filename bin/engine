@@ -1,0 +1,23 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+require __DIR__.'/../vendor/autoload.php';
+
+use Diagonal\Application\Application;
+use Diagonal\Engine\Engine;
+use Diagonal\Network\Network;
+use Diagonal\Network\Subject;
+
+$engine = new Engine(new Network(), getenv('NETWORK_PREFIX') ?: Subject::PREFIX);
+
+$app = Application::make($engine, key: 'engine');
+
+$app->register(...require __DIR__.'/../bootstrap/services.php');
+
+$engine->serve();
+
+fwrite(STDOUT, 'engine listening on '.Subject::all(getenv('NETWORK_PREFIX') ?: Subject::PREFIX).PHP_EOL);
+
+$engine->run();
